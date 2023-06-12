@@ -16,12 +16,9 @@ class UrlForm extends Component {
 
   handleSubmit = e => {
     e.preventDefault();
-    const newInput = {
-      id: Date.now(),
-      ...this.state
-    }
-    this.props.addLink(newInput)
-    this.clearInputs();
+      const input = {long_url:this.state.urlToShorten, title:this.state.title}
+      this.props.addLink(input)
+      this.clearInputs();
   }
 
   clearInputs = () => {

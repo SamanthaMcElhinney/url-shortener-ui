@@ -6,7 +6,7 @@ const UrlContainer = props => {
     return (
       <div className="url" key={url.id} id={url.id}>
         <h3>{url.title}</h3>
-        <a href={url.short_url} target="blank">{url.short_url}</a>
+        <a className="short" href={url.short_url} target="blank">{url.short_url}</a>
         <p>{url.long_url}</p>
       </div>
     )

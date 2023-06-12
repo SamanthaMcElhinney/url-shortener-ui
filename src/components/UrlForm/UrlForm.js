@@ -12,10 +12,17 @@ class UrlForm extends Component {
 
   handleNameChange = e => {
     this.setState({ [e.target.name]: e.target.value });
+     this.props.clearError();
   }
 
   handleSubmit = e => {
     e.preventDefault();
+
+      if (this.state.title.trim() === "" || this.state.urlToShorten.trim() === "") {
+        this.props.error("Please enter both a title and a URL");
+        return;
+      }
+
       const input = {long_url:this.state.urlToShorten, title:this.state.title}
       this.props.addLink(input)
       this.clearInputs();

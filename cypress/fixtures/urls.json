@@ -3,19 +3,19 @@
     {
         "title": "sloths",
         "long_url": "https://unsplash.com/photos/PZSpZQAtuG4",
-        "short_url": "http://localhost:3001/useshortsloth/1",
+        "short_url": "http://localhost:3001/useshorturl/1",
         "id": 1
     },
       {
         "title": "penquins",
         "long_url": "https://unsplash.com/photos/0eYHcCrcFNM",
-        "short_url": "http://localhost:3001/useshortpenguins/2",
+        "short_url": "http://localhost:3001/useshorturl/2",
         "id": 2
       },
         {
          "title": "corn",
          "long_url": "https://unsplash.com/photos/cjVhL2uf13s",
-         "short_url": "http://localhost:3001/useshortcorn/3",
+         "short_url": "http://localhost:3001/useshorturl/3",
          "id": 3
        }
     ]

@@ -3,7 +3,7 @@ describe('Dashboard Page', () => {
     cy.intercept("GET", "http://localhost:3001/api/v1/urls", {
     statusCode: 200,
     fixture:'urls.json'
-  });
+  })
   cy.visit("http://localhost:3000/");
   })
 
@@ -70,5 +70,16 @@ it("should display to the user the newly created shortened URL, title, and origi
     .get('.short')
     .should("contain", "https://localhost:3001/useshorturl/4")
     .get('p').should("contain","https://unsplash.com/photos/cjVhL2uf13s")
+});
+it("should not allow users to enter a empty title and submit the form", () => {
+  cy.get('input[name="title"]')
+    .type("Test Pass")
+  cy.get('button').click()
+  cy.get(".error").contains("Please enter both a title and a URL");
+})
+it("should not allow users to enter a empty URL input and submit the form", () => {
+  cy.get("input[name=urlToShorten]").type("http://testURL");
+  cy.get("button").click();
+  cy.get(".error").contains("Please enter both a title and a URL");
 });
 })

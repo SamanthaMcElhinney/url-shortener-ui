@@ -16,6 +16,11 @@ class UrlForm extends Component {
 
   handleSubmit = e => {
     e.preventDefault();
+    const newInput = {
+      id: Date.now(),
+      ...this.state
+    }
+    this.props.addLink(newInput)
     this.clearInputs();
   }
 
@@ -27,26 +32,24 @@ class UrlForm extends Component {
     return (
       <form>
         <input
-          type='text'
-          placeholder='Title...'
-          name='title'
+          type="text"
+          placeholder="Title..."
+          name="title"
           value={this.state.title}
-          onChange={e => this.handleNameChange(e)}
+          onChange={(e) => this.handleNameChange(e)}
         />
 
         <input
-          type='text'
-          placeholder='URL to Shorten...'
-          name='title'
-          value={this.state.title}
-          onChange={e => this.handleNameChange(e)}
+          type="text"
+          placeholder="URL to Shorten..."
+          name="urlToShorten"
+          value={this.state.urlToShorten}
+          onChange={(e) => this.handleNameChange(e)}
         />
 
-        <button onClick={e => this.handleSubmit(e)}>
-          Shorten Please!
-        </button>
+        <button onClick={(e) => this.handleSubmit(e)}>Shorten Please!</button>
       </form>
-    )
+    );
   }
 }
 

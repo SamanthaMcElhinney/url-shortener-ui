@@ -8,29 +8,38 @@ export class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      urls: []
-    }
+      urls: [],
+      error: "",
+    };
   }
 
   componentDidMount() {
     getUrls()
-    .then(data => {
-      console.log(data)
-      this.setState({urls:data.urls})
-    })
-    .catch(error => {
-      console.log(error)
-    })
+      .then((data) => {
+        console.log(data);
+        this.setState({ urls: data.urls });
+      })
+      .catch((error) => {
+        this.setState({ error: error.message });
+      });
   }
 
   addLink = (inputs) => {
     postUrls(inputs)
-    .then(data => {
-      this.setState({urls:[...this.state.urls, data]})
-    })
-    .catch(error => {
-      console.log(error)
-    })
+      .then((data) => {
+        this.setState({ urls: [...this.state.urls, data] });
+      })
+      .catch((error) => {
+        this.setState({ error: error.message });
+      });
+  };
+
+  handleError = (errorMsg) => {
+    this.setState({ error: errorMsg });
+  };
+
+  clearError = () => {
+    this.setState({error: ''})
   }
 
   render() {
@@ -38,10 +47,10 @@ export class App extends Component {
       <main className="App">
         <header>
           <h1>URL Shortener</h1>
-          <UrlForm addLink = {this.addLink}/>
+          <UrlForm addLink={this.addLink} error={this.handleError} clearError={this.clearError}/>
         </header>
-
-        <UrlContainer urls={this.state.urls}k/>
+        {this.state.error && <p className="error">{this.state.error}</p>}
+        <UrlContainer urls={this.state.urls} k />
       </main>
     );
   }

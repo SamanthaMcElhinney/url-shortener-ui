@@ -26,7 +26,7 @@ export class App extends Component {
   addLink = (inputs) => {
     postUrls(inputs)
     .then(data => {
-      this.setState({urls:[...this.state.urls, inputs]})
+      this.setState({urls:[...this.state.urls, data]})
     })
     .catch(error => {
       console.log(error)
@@ -41,7 +41,7 @@ export class App extends Component {
           <UrlForm addLink = {this.addLink}/>
         </header>
 
-        <UrlContainer urls={this.state.urls}/>
+        <UrlContainer urls={this.state.urls}k/>
       </main>
     );
   }

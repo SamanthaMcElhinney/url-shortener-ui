@@ -7,14 +7,14 @@ describe('Dashboard Page', () => {
   cy.visit("http://localhost:3000/");
   })
 
-  it.skip('Should display a title on page load and all exisiting URLs', () => {
+  it('should display a title on page load and all exisiting URLs', () => {
     cy.get('h1').should("have.text", "URL Shortener")
     cy.get(".url")
       .first()
       .get("h3")
       .contains("sloths")
       .get(".short")
-      .contains("http://localhost:3001/useshorturl/33")
+      .contains("http://localhost:3001/useshorturl/1")
       .get("p")
       .contains("https://unsplash.com/photos/PZSpZQAtuG4");
     cy.get(".url")
@@ -22,11 +22,11 @@ describe('Dashboard Page', () => {
       .get("h3")
       .contains("corn")
       .get(".short")
-      .contains("http://localhost:3001/useshorturl/11")
+      .contains("http://localhost:3001/useshorturl/3")
       .get("p")
       .contains("https://unsplash.com/photos/cjVhL2uf13s");
   })
-  it.skip("Should display a form to submit details for new URLs", () => {
+  it("should display a form to submit details for new URLs", () => {
     cy.get("form")
       .should("be.visible")
       .get('input[name="title"]')
@@ -39,28 +39,36 @@ describe('Dashboard Page', () => {
       .should("be.visible");
     cy.get('button').should('have.text', "Shorten Please!")
   })
-  it(
-    "Should be able to fill out the form and display after submission "
-  , () => {
-      cy.intercept("POST", "http://localhost:3001/api/v1/urls", {
-        statusCode: 201,
-        body: {
-          id: 4,
-          title: "Cat lover",
-          long_url: "https://unsplash.com/photos/ZCHj_2lJP00",
-          short_url:"https://localhost:3001/useshorturl/4"
-        }
-      }).as('postCheck')
-     cy.get("form")
-       .should("be.visible")
-       .get('input[name="title"]')
-       .type("Cat lover")
-       .get("input[name=urlToShorten]")
-       .type("https://unsplash.com/photos/cjVhL2uf13s");
-      cy.get('button').click()
-      cy.wait('@postCheck')
-      cy.get("#4")
-        .contains('Cat lover')
-  });
+  it("should update the values of inputs as the user types", () => {
+      cy.get('input[name="title"]').type("test URL");
+      cy.get("input[name=urlToShorten]").type("http://testURLshort")
+     
+      cy.get('input[name="title"]').should('have.value',"test URL");
+      cy.get("input[name=urlToShorten]").should('have.value',"http://testURLshort");
+  })
+it("should display to the user the newly created shortened URL, title, and original URL on successful POST", () => {
+  cy.intercept("POST", "http://localhost:3001/api/v1/urls", {
+    statusCode: 201,
+    body: {
+      id: 4,
+      title: "Cat lover",
+      long_url: "https://unsplash.com/photos/ZCHj_2lJP00",
+      short_url: "https://localhost:3001/useshorturl/4",
+    },
+  }).as("postCheck");
 
+  cy.get("form")
+    .get('input[name="title"]')
+    .type("Cat lover")
+    .get("input[name=urlToShorten]")
+    .type("https://unsplash.com/photos/cjVhL2uf13s");
+
+  cy.get("button").click();
+  cy.wait("@postCheck");
+
+  cy.get("#4").contains("Cat lover")
+    .get('.short')
+    .should("contain", "https://localhost:3001/useshorturl/4")
+    .get('p').should("contain","https://unsplash.com/photos/cjVhL2uf13s")
+});
 })
